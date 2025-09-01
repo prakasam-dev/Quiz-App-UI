@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to the Quiz</title>
+    <link rel="stylesheet" href="quiz.css">
+</head>
+<body>
+    <div class="background-container">
+        <div class="quiz-container">
+            <h1>Welcome to the quiz!</h1>
+            <div class="timer" id="timer">01:00</div>
+            <div class="question-box">
+            <h2 id="question">Question text</h2></div>
+            <div class="options" id="options"></div>
+        <div class="navigation">
+        <button id="prevBtn">Previous</button>
+        <button id="nextBtn">Next</button>
+        <button  id="submitBtn" type="submit" style="display: none;">submit</button>
+        </div>
+        <div class="result-box" id="resultBox">
+             <h1>Results</h1>
+             <p id="scoreText"></p>
+             <p id="percentText"></p>
+             <button onclick="goHome()">Go Home</button>
+             <button onclick="tryAgain()">Try Again</button>
+        </div>
+    </div>
+    </div>    
+    <script>
+        const questions = [
+            {
+                question:"which language runs in a web browser?",
+                options:["java","c","Python","javascript"],
+                answer:"javascript"
+            },
+            {
+                question:"What will the following code output? let x; console.log(x);",
+                options:["null","undefined","0","Error"],
+                answer:"undefined"
+            },
+            {
+                question:"What is a correct syntax for assigning a value to a variable?",
+                options:["x : 5","x = 5", "x == 5", "x -> 5"],
+                answer:"x = 5"
+            },
+            {
+                question:"Which of the following is a correct syntax to display “Hello World” in an alert box using JavaScript?",
+                options:["alertBox('Hello World');","alert('Hello World');","msgAlert('Hello World');","displayAlert('Hello World');"],
+                answer:"alert('Hello World');"
+            },
+            {
+                question:"How do you define a function in JavaScript?",
+                options:["function = myFunc() {}","function: myFunc() {}","function myFunc() {}","myFunc() = function {}"],
+                answer:"function myFunc() {}"
+            }
+        ]
+
+    let currentIndex = 0;
+    let score = 0;
+    let selectedAnswers = Array(questions.length).fill(null);
+    let timer;
+    let totalTime = 60;
+
+    function showQuestion() {
+      const q = questions[currentIndex];
+      document.getElementById("question").innerText = q.question;
+
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+
+      q.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.innerText = option;
+        btn.onclick = () => selectAnswer(btn, option);
+        if (selectedAnswers[currentIndex] !== null) {
+          btn.disabled = true;
+          if (option === q.answer) btn.classList.add("correct");
+          else if (option === selectedAnswers[currentIndex]) btn.classList.add("wrong");
+        }
+        optionsDiv.appendChild(btn);
+      });
+
+      document.getElementById("prevBtn").disabled = currentIndex === 0;
+      document.getElementById("nextBtn").style.display = currentIndex < questions.length - 1 ? "inline-block" : "none";
+      document.getElementById("submitBtn").style.display = currentIndex === questions.length - 1 ? "inline-block" : "none";
+    }
+
+   function selectAnswer(button, selected) {
+    const correct = questions[currentIndex].answer;
+    selectedAnswers[currentIndex] = selected;
+
+    const buttons = document.querySelectorAll("#options button");
+    buttons.forEach(btn => {
+        btn.disabled = true;
+        if (btn.innerText === correct) btn.classList.add("correct");
+        else if (btn.innerText === selected) btn.classList.add("wrong");
+    });
+
+    if (selected === correct) 
+        score++;
+}
+
+
+    function nextQuestion() {
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        showQuestion();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        showQuestion();
+      }
+    }
+
+    function submitQuiz() {
+      clearInterval(timer);
+      console.log("Quiz submitted");
+      document.querySelector(".question-box").style.display = "none";
+      document.querySelector(".navigation").style.display = "none";
+      document.querySelector(".options").style.display = "none";
+
+      const resultBox = document.getElementById("resultBox");
+      resultBox.style.display = "flex";
+      document.getElementById("scoreText").innerText = `You scored ${score} out of ${questions.length}`;
+      const percent = Math.round((score / questions.length) * 100);
+      document.getElementById("percentText").innerText = `Your win percentage is ${percent}%`;
+    }
+
+    function tryAgain() {
+      currentIndex = 0;
+      score = 0;
+      selectedAnswers = Array(questions.length).fill(null);
+      document.querySelector(".question-box").style.display = "block";
+      document.querySelector(".navigation").style.display = "flex";
+      document.querySelector(".options").style.display = "block";
+      document.getElementById("resultBox").style.display = "none";
+      startTimer();
+      showQuestion();
+    }
+
+    function goHome() {
+      window.location.href = "index.html";
+    }
+
+    function startTimer() {
+      totalTime = 60;
+      updateTimer();
+      timer = setInterval(() => {
+        totalTime--;
+        updateTimer();
+        if (totalTime <= 0) {
+          clearInterval(timer);
+          submitQuiz();
+        }
+      }, 1000);
+    }
+
+    function updateTimer() {
+      const min = String(Math.floor(totalTime / 60)).padStart(2, "0");
+      const sec = String(totalTime % 60).padStart(2, "0");
+      document.getElementById("timer").innerText = `${min}:${sec}`;
+    }
+
+    document.getElementById("prevBtn").addEventListener("click", prevQuestion);
+    document.getElementById("nextBtn").addEventListener("click", nextQuestion);
+    document.getElementById("submitBtn").addEventListener("click", submitQuiz);
+    
+
+    window.onload = () => {
+    startTimer();
+    showQuestion();
+};
+
+
+    </script>
+</body>
+</html>

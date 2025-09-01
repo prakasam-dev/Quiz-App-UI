@@ -1,0 +1,170 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: sans-serif;
+    height: 100vh;
+}
+.background-container {
+  background-image: url("bac.jpg");
+  height: 100vh;
+  width: 100vw;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar{
+    background-color: #13121233;
+    padding: 15px;
+}
+.navdiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo a{
+    font-size: 35px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-decoration: none;
+    color: white;
+}
+.logo i{
+    color: white;
+    padding: 10px;
+    font-size: 35px;
+}
+li{
+    list-style: none;
+    display: inline-block;
+}
+li a{
+    margin: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+}
+li a:hover{
+    color: goldenrod;
+}
+button{
+    margin: 20px;
+    padding: 7px 20px;
+    border-radius: 20px;
+    background: rgb(216, 169, 52);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+button a{
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .navbar{
+        padding: 10px;
+    }
+    .navdiv {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    li {
+        margin: 10px 0;
+        display:block;
+    }
+    
+}
+
+.main-content{
+    color: white;
+    background:#333;
+    width: 50%;
+    border: 2px solid #333;
+    border-radius: 15px;
+    box-shadow: 1px 2px 3px;
+    text-align: center;
+    margin-top: 90px;
+    margin-left: 25%;
+
+}
+h2{
+    color: rgb(224, 201, 66);
+    padding: 20px;
+    margin: 15px;
+    font-size: 35px;
+    text-decoration: underline;
+}
+p{
+    padding: 10px;
+    line-height: 1.6;
+    font-size: 18px;
+}
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px;
+  }
+
+  .navdiv {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  ul {
+    padding: 0;
+  }
+
+  li {
+    margin: 10px 0;
+    display: block;
+  }
+
+  button {
+    margin: 10px 0;
+    padding: 6px 16px;
+    font-size: 0.9rem;
+  }
+
+  h2 {
+    font-size: 24px;
+    padding: 10px;
+    margin: 10px;
+  }
+
+  p {
+    font-size: 16px;
+    padding: 8px;
+  }
+
+  button#startBtn {
+    width: 100%;
+    margin-top: 20px;
+  }
+}
+@media (max-width: 768px) {
+  .background-container {
+    background-position: top center;
+    background-size: cover;
+    height: auto;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .main-content {
+    width: 90%;
+    margin: 30px auto;
+    padding: 15px;
+  }
+}
+
